@@ -1,0 +1,58 @@
+---
+import ImagePlaceholder from "./ImagePlaceholder.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { useTranslations, type Lang } from "../i18n/utils";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const aboutUrl = getRelativeLocaleUrl(lang, "about-astrorante");
+const menuUrl = getRelativeLocaleUrl(lang, "menu");
+
+// Destaca las dos últimas palabras del título sin hardcodear texto,
+// funciona para ambos idiomas.
+const titleWords = t("hero.title").split(" ");
+const titleStart = titleWords.slice(0, -2).join(" ");
+const titleHighlight = titleWords.slice(-2).join(" ");
+---
+
+<section aria-labelledby="hero-title" class="w-full bg-stone-50">
+	<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:py-28">
+		<div class="mx-auto max-w-3xl text-center">
+			<p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-700">
+				{t("hero.eyebrow")}
+			</p>
+			<h1
+				id="hero-title"
+				class="mt-4 font-serif text-4xl font-bold leading-tight text-neutral-950 sm:text-5xl lg:text-6xl"
+			>
+				{titleStart}{" "}
+				<span class="text-amber-700">{titleHighlight}</span>
+			</h1>
+			<p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg">
+				{t("hero.description")}
+			</p>
+			<div class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+				<a
+					href={aboutUrl}
+					class="w-full rounded-full bg-neutral-950 px-7 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-neutral-800 sm:w-auto"
+				>
+					{t("hero.ctaPrimary")}
+				</a>
+				<a
+					href={menuUrl}
+					class="w-full rounded-full border border-neutral-300 bg-white px-7 py-3 text-center text-sm font-semibold text-neutral-900 transition-colors hover:border-neutral-950 sm:w-auto"
+				>
+					{t("hero.ctaSecondary")}
+				</a>
+			</div>
+		</div>
+		<div class="mx-auto mt-12 max-w-5xl lg:mt-16">
+			<ImagePlaceholder label={t("hero.imageLabel")} variant="video" />
+		</div>
+	</div>
+</section>

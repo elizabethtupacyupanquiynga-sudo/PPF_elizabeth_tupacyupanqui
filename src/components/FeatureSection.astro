@@ -1,0 +1,82 @@
+---
+import ImagePlaceholder from "./ImagePlaceholder.astro";
+
+export type FeatureImagePosition = "left" | "right";
+export type FeatureImageVariant = "video" | "vertical";
+
+interface Props {
+	eyebrow?: string;
+	title: string;
+	description?: string | string[];
+	features?: string[];
+	ctaText?: string;
+	href?: string;
+	imagePosition?: FeatureImagePosition;
+	imageLabel: string;
+	imageVariant?: FeatureImageVariant;
+	headingId: string;
+}
+
+const {
+	eyebrow,
+	title,
+	description,
+	features,
+	ctaText,
+	href,
+	imagePosition = "right",
+	imageLabel,
+	imageVariant = "video",
+	headingId,
+} = Astro.props;
+
+const paragraphs = Array.isArray(description)
+	? description
+	: description
+		? [description]
+		: [];
+
+const imageOrder = imagePosition === "left" ? "lg:order-1" : "lg:order-2";
+const contentOrder = imagePosition === "left" ? "lg:order-2" : "lg:order-1";
+---
+
+<section aria-labelledby={headingId}>
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-20">
+		<div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+			<div class={imageOrder}>
+				<ImagePlaceholder label={imageLabel} variant={imageVariant} />
+			</div>
+			<div class={contentOrder}>
+				{eyebrow && (
+					<p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-700">
+						{eyebrow}
+					</p>
+				)}
+				<h2
+					id={headingId}
+					class="mt-2 font-serif text-3xl font-bold leading-tight text-neutral-950 sm:text-4xl"
+				>
+					{title}
+				</h2>
+				{paragraphs.map((paragraph) => (
+					<p class="mt-4 leading-relaxed text-neutral-600">{paragraph}</p>
+				))}
+				{features && features.length > 0 && (
+					<ul class="mt-4 list-disc space-y-2 ps-5 marker:text-amber-700">
+						{features.map((feature) => (
+							<li class="leading-relaxed text-neutral-600">{feature}</li>
+						))}
+					</ul>
+				)}
+				{ctaText && href && (
+					<a
+						href={href}
+						class="mt-6 inline-block rounded-full border border-neutral-300 bg-white px-7 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:border-neutral-950"
+					>
+						{ctaText}
+					</a>
+				)}
+			</div>
+		</div>
+	</div>
+</section>

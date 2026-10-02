@@ -1,0 +1,23 @@
+---
+import FeatureSection from "./FeatureSection.astro";
+import { ui } from "../i18n/ui";
+import { useTranslations, type Lang } from "../i18n/utils";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<FeatureSection
+	title={t("sections.visualEditing.title")}
+	description={ui[lang].sections.visualEditing.paragraphs}
+	ctaText={t("buttons.visitStoryblok")}
+	href="https://www.storyblok.com/"
+	imagePosition="left"
+	imageLabel={t("sections.visualEditing.imageLabel")}
+	imageVariant="video"
+	headingId="visual-editing-title"
+/>

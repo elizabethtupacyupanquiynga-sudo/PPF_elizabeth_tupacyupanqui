@@ -1,0 +1,25 @@
+---
+import FeatureSection from "./FeatureSection.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { ui } from "../i18n/ui";
+import { useTranslations, type Lang } from "../i18n/utils";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<FeatureSection
+	title={t("sections.flexibleMenu.title")}
+	description={t("sections.flexibleMenu.description")}
+	features={ui[lang].sections.flexibleMenu.items}
+	ctaText={t("sections.flexibleMenu.linkText")}
+	href={getRelativeLocaleUrl(lang, "menu")}
+	imagePosition="right"
+	imageLabel={t("sections.flexibleMenu.imageLabel")}
+	imageVariant="vertical"
+	headingId="flexible-menu-title"
+/>
