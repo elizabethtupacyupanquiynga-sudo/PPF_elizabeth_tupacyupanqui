@@ -1,56 +1,121 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { ui } from "../i18n/ui";
+import { useTranslations, type Lang } from "../i18n/utils";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const footer = ui[lang].footer;
+
+const homeUrl = getRelativeLocaleUrl(lang);
+const aboutUrl = getRelativeLocaleUrl(lang, "about-astrorante");
+const menuUrl = getRelativeLocaleUrl(lang, "menu");
+const newsUrl = getRelativeLocaleUrl(lang, "news");
+
+const infoLinks = [
+	{ label: t("footer.home"), href: homeUrl },
+	{ label: t("footer.docs"), href: newsUrl },
+	{ label: t("footer.aboutUs"), href: aboutUrl },
+];
+
+const foodLinks = footer.foodLinks.map((label) => ({ label, href: menuUrl }));
+
+const linkClass =
+	"inline-block py-0.5 text-sm leading-relaxed text-neutral-400 transition-colors hover:text-lime-200 hover:underline hover:underline-offset-4";
+const headingClass = "text-xs font-bold uppercase tracking-[0.2em] text-white";
 ---
 
-<footer>
-	<div>
-		<p>
-			<strong>AstroRante</strong> is a state-of-the-art website theme crafted
-			for fine dining establishments.
-		</p>
-		<address>
-			Cala Sol d'en Serra s/n, 07849 Cala Llonga, Balearic Islands<br />
-			<a href="mailto:hello@unfolding.io">[email protected]</a><br />
-			<a href="tel:0000000">+34 000 000 00</a>
-		</address>
-		<ul aria-label="Social links">
-			<li><a href="#" aria-label="Social link 1">Social 1</a></li>
-			<li><a href="#" aria-label="Social link 2">Social 2</a></li>
-			<li><a href="https://wa.me/0000000">WhatsApp</a></li>
-		</ul>
-	</div>
+<footer class="bg-neutral-950 text-neutral-300">
+	<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+		<div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+			<div>
+				<a
+					href={homeUrl}
+					class="text-xl font-black tracking-tight text-white"
+				>
+					{t("nav.brand")}
+					<span aria-hidden="true" class="text-lime-300">.</span>
+				</a>
+				<p class="mt-4 text-sm leading-relaxed text-neutral-400">
+					{t("footer.description")}
+				</p>
+				<address class="mt-4 text-sm leading-relaxed text-neutral-400 not-italic">
+					<span class="block">{t("footer.address")}</span>
+					<a
+						href={`mailto:${t("footer.email")}`}
+						class="mt-2 block break-all py-0.5 transition-colors hover:text-lime-200 hover:underline hover:underline-offset-4"
+					>
+						{t("footer.email")}
+					</a>
+					<a
+						href={t("footer.phoneHref")}
+						class="mt-1 block py-0.5 transition-colors hover:text-lime-200 hover:underline hover:underline-offset-4"
+					>
+						{t("footer.phoneDisplay")}
+					</a>
+				</address>
+			</div>
 
-	<nav aria-label="Information">
-		<h2>Information</h2>
-		<ul>
-			<li><a href="/">Home</a></li>
-			<li><a href="/news">Docs &amp; Features</a></li>
-			<li><a href="/about-astrorante">About Us</a></li>
-			<li><a href="https://github.com/unfolding-io/Astrorante">GitHub</a></li>
-		</ul>
-	</nav>
+			<nav aria-label={t("footer.informationTitle")}>
+				<h2 class={headingClass}>
+					{t("footer.informationTitle")}
+				</h2>
+				<ul class="mt-5 space-y-2.5">
+					{
+						infoLinks.map((link) => (
+							<li>
+								<a href={link.href} class={linkClass}>
+									{link.label}
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</nav>
 
-	<nav aria-label="Food">
-		<h2>Food</h2>
-		<ul>
-			<li><a href="/menu">Menu</a></li>
-		</ul>
-	</nav>
+			<nav aria-label={t("footer.foodTitle")}>
+				<h2 class={headingClass}>
+					{t("footer.foodTitle")}
+				</h2>
+				<ul class="mt-5 space-y-2.5">
+					{
+						foodLinks.map((link) => (
+							<li>
+								<a href={link.href} class={linkClass}>
+									{link.label}
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</nav>
 
-	<div>
-		<h2>Opening Hours</h2>
-		<ul>
-			<li><strong>Sun:</strong> 08:00 - 00:00</li>
-			<li><strong>Mon:</strong> Closed</li>
-			<li><strong>Tue:</strong> 08:00 - 00:00</li>
-			<li><strong>Wed:</strong> 08:00 - 00:00</li>
-			<li><strong>Thu:</strong> 08:00 - 00:00</li>
-			<li><strong>Fri:</strong> Closed</li>
-			<li><strong>Sat:</strong> 08:00 - 00:00</li>
-		</ul>
-	</div>
+			<div>
+				<h2 class={headingClass}>
+					{t("footer.openingHoursTitle")}
+				</h2>
+				<ul class="mt-5 space-y-2.5">
+					{
+						footer.hours.map((entry) => (
+						<li class="flex min-w-0 items-baseline justify-between gap-3 sm:gap-4 text-sm">
+								<span class="font-semibold text-neutral-200">{entry.day}</span>
+								<span class="shrink-0 whitespace-nowrap tabular-nums text-neutral-400">{entry.time}</span>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</div>
 
-	<div>
-		<small>© 2023 Astrorante</small>
-		<a href="https://unfolding.io">powered by</a>
+		<div
+			class="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-sm text-neutral-400 sm:flex-row sm:items-center sm:justify-between"
+		>
+			<small>{t("footer.rights")}</small>
+			<span>{t("footer.poweredBy")}</span>
+		</div>
 	</div>
 </footer>

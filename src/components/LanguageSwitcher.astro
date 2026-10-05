@@ -4,35 +4,75 @@ import { useTranslations, type Lang } from "../i18n/utils";
 
 interface Props {
 	lang: Lang;
+	landmark?: boolean;
 }
 
-const { lang } = Astro.props;
+const { lang, landmark = true } = Astro.props;
 const t = useTranslations(lang);
 
-const esUrl = getRelativeLocaleUrl("es");
-const enUrl = getRelativeLocaleUrl("en");
+const locales = [
+	{
+		code: "ES",
+		url: getRelativeLocaleUrl("es"),
+		label: t("langSelector.es"),
+		active: lang === "es",
+	},
+	{
+		code: "EN",
+		url: getRelativeLocaleUrl("en"),
+		label: t("langSelector.en"),
+		active: lang === "en",
+	},
+];
 
 const baseLink = "rounded px-1.5 py-1 text-xs tracking-widest uppercase";
-const activeLink = "font-semibold text-neutral-900 underline underline-offset-4";
-const inactiveLink = "text-neutral-500 hover:text-neutral-900";
+const activeLink =
+	"font-bold text-teal-800 underline decoration-teal-500 decoration-2 underline-offset-4";
+const inactiveLink = "text-neutral-500 hover:text-teal-800";
+
+const linksClass = "flex items-center gap-1";
 ---
 
-<nav aria-label={t("langSelector.label")} class="flex items-center gap-1">
-	<a
-		href={esUrl}
-		aria-label={t("langSelector.es")}
-		aria-current={lang === "es" ? "page" : undefined}
-		class={`${baseLink} ${lang === "es" ? activeLink : inactiveLink}`}
-	>
-		ES
-	</a>
-	<span aria-hidden="true" class="text-xs text-neutral-300">/</span>
-	<a
-		href={enUrl}
-		aria-label={t("langSelector.en")}
-		aria-current={lang === "en" ? "page" : undefined}
-		class={`${baseLink} ${lang === "en" ? activeLink : inactiveLink}`}
-	>
-		EN
-	</a>
-</nav>
+{
+	landmark ? (
+		<nav aria-label={t("langSelector.label")} class={linksClass}>
+			{locales.map((locale, index) => (
+				<>
+					{index > 0 && (
+						<span aria-hidden="true" class="text-xs text-neutral-300">
+							/
+						</span>
+					)}
+					<a
+						href={locale.url}
+						aria-label={locale.label}
+						aria-current={locale.active ? "page" : undefined}
+						class={`${baseLink} ${locale.active ? activeLink : inactiveLink}`}
+					>
+						{locale.code}
+					</a>
+				</>
+			))}
+		</nav>
+	) : (
+		<span class={linksClass}>
+			{locales.map((locale, index) => (
+				<>
+					{index > 0 && (
+						<span aria-hidden="true" class="text-xs text-neutral-300">
+							/
+						</span>
+					)}
+					<a
+						href={locale.url}
+						aria-label={locale.label}
+						aria-current={locale.active ? "page" : undefined}
+						class={`${baseLink} ${locale.active ? activeLink : inactiveLink}`}
+					>
+						{locale.code}
+					</a>
+				</>
+			))}
+		</span>
+	)
+}

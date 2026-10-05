@@ -1,29 +1,65 @@
 ---
 import ImagePlaceholder from "./ImagePlaceholder.astro";
+import { ui } from "../i18n/ui";
+import { useTranslations, type Lang } from "../i18n/utils";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Array de ofertas del restaurante (title, description, price, imageLabel).
+// Los textos viven en `src/i18n/ui.ts` para soportar es/en sin hardcodear.
+const deals = ui[lang].deals;
 ---
 
-<section aria-labelledby="tasty-deals-title">
-	<h2 id="tasty-deals-title">Tasty deals</h2>
-	<p>You can show your happy hour deals here</p>
+<section aria-labelledby="tasty-deals-title" class="bg-lime-50">
+	<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+		<div class="mx-auto max-w-2xl text-center">
+			<h2
+				id="tasty-deals-title"
+				class="text-[1.7rem] font-black leading-[1.12] tracking-tight text-balance text-neutral-950 sm:text-4xl sm:leading-[1.1]"
+			>
+				{t("sections.tastyDeals.title")}
+			</h2>
+			<p class="mt-4 leading-relaxed text-neutral-600">
+				{t("sections.tastyDeals.subtitle")}
+			</p>
+		</div>
 
-	<article aria-labelledby="deal-tapas-title">
-		<ImagePlaceholder label="Tapas For Two Dish" variant="vertical" />
-		<h3 id="deal-tapas-title">Tapas For Two</h3>
-		<p>25% of tapas for two, every Sunday</p>
-		<span>$750</span>
-	</article>
-
-	<article aria-labelledby="deal-mojito-title">
-		<ImagePlaceholder label="Mojito Monday Drink" variant="vertical" />
-		<h3 id="deal-mojito-title">Mojito Monday</h3>
-		<p>Every Monday from 5am to 7am</p>
-		<span>$400</span>
-	</article>
-
-	<article aria-labelledby="deal-margarita-title">
-		<ImagePlaceholder label="Classic Margarita Drink" variant="vertical" />
-		<h3 id="deal-margarita-title">Margarita Thursday</h3>
-		<p>Every Thursday from 5am to 7am</p>
-		<span>$350</span>
-	</article>
+		<div class="mt-10 grid gap-6 md:grid-cols-3">
+			{
+				deals.map((deal, index) => (
+					<article
+						aria-labelledby={`deal-${index}-title`}
+						class="flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-neutral-950/5"
+					>
+						<ImagePlaceholder
+							label={deal.imageLabel}
+							variant="vertical"
+							rounded={false}
+						/>
+						<div class="flex flex-1 flex-col p-6 sm:p-7">
+							<h3
+								id={`deal-${index}-title`}
+								class="text-lg font-bold tracking-tight text-neutral-950"
+							>
+								{deal.title}
+							</h3>
+							<p class="mt-2 flex-1 text-sm leading-relaxed text-neutral-600">
+								{deal.description}
+							</p>
+							<p class="mt-5">
+								<span class="inline-flex items-center rounded-full bg-teal-700/10 px-4 py-1.5 text-lg font-black tracking-tight text-teal-800 ring-1 ring-teal-700/20">
+									{deal.price}
+								</span>
+							</p>
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</div>
 </section>

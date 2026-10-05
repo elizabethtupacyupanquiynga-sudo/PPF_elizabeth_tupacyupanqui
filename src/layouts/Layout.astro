@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import type { Lang } from "../i18n/ui";
+import { useTranslations, type Lang } from "../i18n/utils";
 
 interface Props {
 	lang: Lang;
@@ -10,6 +10,7 @@ interface Props {
 }
 
 const { lang, title, description } = Astro.props;
+const t = useTranslations(lang);
 
 // URLs relativas generadas con la utilidad oficial de Astro i18n.
 // Cuando se configure `site` en astro.config.mjs, cambiar a
@@ -32,7 +33,13 @@ const enUrl = getRelativeLocaleUrl("en");
 		<link rel="alternate" hreflang="x-default" href={esUrl} />
 		<title>{title}</title>
 	</head>
-	<body>
+	<body class="bg-white font-sans text-neutral-800 antialiased">
+		<a
+			href="#main-content"
+			class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-teal-700 focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-white"
+		>
+			{t("nav.skip")}
+		</a>
 		<slot />
 	</body>
 </html>

@@ -6,9 +6,10 @@ export type Lang = (typeof languages)[number];
 
 export interface NavTexts {
 	brand: string;
+	main: string;
+	skip: string;
 	about: string;
 	menu: string;
-	docs: string;
 }
 
 export interface HeroTexts {
@@ -21,9 +22,6 @@ export interface HeroTexts {
 }
 
 export interface ButtonsTexts {
-	about: string;
-	menu: string;
-	viewMenu: string;
 	visitStoryblok: string;
 	github: string;
 	removeAttribution: string;
@@ -49,17 +47,27 @@ export interface Deal {
 	imageLabel: string;
 }
 
+export interface FooterHour {
+	day: string;
+	time: string;
+}
+
 export interface FooterTexts {
 	description: string;
+	address: string;
+	email: string;
+	phoneDisplay: string;
+	phoneHref: string;
 	informationTitle: string;
 	foodTitle: string;
 	openingHoursTitle: string;
 	home: string;
 	docs: string;
 	aboutUs: string;
-	closed: string;
 	rights: string;
 	poweredBy: string;
+	foodLinks: string[];
+	hours: FooterHour[];
 }
 
 export interface LangSelectorTexts {
@@ -114,9 +122,10 @@ export const ui: Record<Lang, UITexts> = {
 		},
 		nav: {
 			brand: "Casa Ejemplo",
+			main: "Navegación principal",
+			skip: "Saltar al contenido",
 			about: "Nosotros",
 			menu: "Carta",
-			docs: "Docs y Novedades",
 		},
 		hero: {
 			eyebrow: "Cocina de temporada en el centro",
@@ -128,9 +137,6 @@ export const ui: Record<Lang, UITexts> = {
 			imageLabel: "Imagen principal del restaurante de ejemplo",
 		},
 		buttons: {
-			about: "Conócenos",
-			menu: "Ver carta",
-			viewMenu: "Ver carta completa",
 			visitStoryblok: "Visitar web de ejemplo",
 			github: "Ver código",
 			removeAttribution: "Reservar mesa",
@@ -229,15 +235,32 @@ export const ui: Record<Lang, UITexts> = {
 		],
 		footer: {
 			description: "Restaurante ficticio creado como ejemplo para la landing.",
+			address: "Calle Ejemplo 123, 28000 Madrid (dirección ficticia)",
+			email: "hola@ejemplo.invalid",
+			phoneDisplay: "+34 000 000 000",
+			phoneHref: "tel:+34000000000",
 			informationTitle: "Información",
 			foodTitle: "Comida",
 			openingHoursTitle: "Horario",
 			home: "Inicio",
 			docs: "Docs y Novedades",
 			aboutUs: "Sobre nosotros",
-			closed: "Cerrado",
 			rights: "© 2026 Restaurante Ejemplo",
 			poweredBy: "Hecho con Astro",
+			foodLinks: [
+				"Carta completa (ejemplo)",
+				"Menú del día (ejemplo)",
+				"Postres caseros (ejemplo)",
+			],
+			hours: [
+				{ day: "Lun", time: "Cerrado" },
+				{ day: "Mar", time: "12:00 - 23:00" },
+				{ day: "Mié", time: "12:00 - 23:00" },
+				{ day: "Jue", time: "12:00 - 23:00" },
+				{ day: "Vie", time: "12:00 - 00:00" },
+				{ day: "Sáb", time: "12:00 - 00:00" },
+				{ day: "Dom", time: "12:00 - 23:00" },
+			],
 		},
 		langSelector: {
 			label: "Idioma",
@@ -252,9 +275,10 @@ export const ui: Record<Lang, UITexts> = {
 		},
 		nav: {
 			brand: "Sample House",
+			main: "Main navigation",
+			skip: "Skip to content",
 			about: "About",
 			menu: "Menu",
-			docs: "Docs & News",
 		},
 		hero: {
 			eyebrow: "Seasonal cooking downtown",
@@ -266,9 +290,6 @@ export const ui: Record<Lang, UITexts> = {
 			imageLabel: "Sample restaurant hero image",
 		},
 		buttons: {
-			about: "About us",
-			menu: "View menu",
-			viewMenu: "View full menu",
 			visitStoryblok: "Visit sample website",
 			github: "View code",
 			removeAttribution: "Book a table",
@@ -366,15 +387,32 @@ export const ui: Record<Lang, UITexts> = {
 		],
 		footer: {
 			description: "Fictional restaurant created as a landing sample.",
+			address: "123 Sample Street, 28000 Madrid (fictional address)",
+			email: "hello@example.invalid",
+			phoneDisplay: "+34 000 000 000",
+			phoneHref: "tel:+34000000000",
 			informationTitle: "Information",
 			foodTitle: "Food",
 			openingHoursTitle: "Opening hours",
 			home: "Home",
 			docs: "Docs & News",
 			aboutUs: "About us",
-			closed: "Closed",
 			rights: "© 2026 Sample Restaurant",
 			poweredBy: "Built with Astro",
+			foodLinks: [
+				"Full menu (sample)",
+				"Daily special (sample)",
+				"Homemade desserts (sample)",
+			],
+			hours: [
+				{ day: "Mon", time: "Closed" },
+				{ day: "Tue", time: "12:00 - 23:00" },
+				{ day: "Wed", time: "12:00 - 23:00" },
+				{ day: "Thu", time: "12:00 - 23:00" },
+				{ day: "Fri", time: "12:00 - 00:00" },
+				{ day: "Sat", time: "12:00 - 00:00" },
+				{ day: "Sun", time: "12:00 - 23:00" },
+			],
 		},
 		langSelector: {
 			label: "Language",

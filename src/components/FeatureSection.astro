@@ -15,6 +15,7 @@ interface Props {
 	imageLabel: string;
 	imageVariant?: FeatureImageVariant;
 	headingId: string;
+	tone?: "white" | "cream";
 }
 
 const {
@@ -28,6 +29,7 @@ const {
 	imageLabel,
 	imageVariant = "video",
 	headingId,
+	tone = "white",
 } = Astro.props;
 
 const paragraphs = Array.isArray(description)
@@ -36,25 +38,29 @@ const paragraphs = Array.isArray(description)
 		? [description]
 		: [];
 
+const sectionTone = tone === "cream" ? "bg-lime-50/60" : "bg-white";
+
 const imageOrder = imagePosition === "left" ? "lg:order-1" : "lg:order-2";
 const contentOrder = imagePosition === "left" ? "lg:order-2" : "lg:order-1";
 ---
 
-<section aria-labelledby={headingId}>
-	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-20">
-		<div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+<section aria-labelledby={headingId} class={sectionTone}>
+	<div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+		<div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
 			<div class={imageOrder}>
-				<ImagePlaceholder label={imageLabel} variant={imageVariant} />
+				<div class="overflow-hidden rounded-2xl shadow-lg shadow-neutral-950/5 ring-1 ring-neutral-950/10">
+					<ImagePlaceholder label={imageLabel} variant={imageVariant} rounded={false} />
+				</div>
 			</div>
 			<div class={contentOrder}>
 				{eyebrow && (
-					<p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-700">
+					<p class="text-xs font-bold uppercase tracking-[0.2em] text-teal-700">
 						{eyebrow}
 					</p>
 				)}
 				<h2
 					id={headingId}
-					class="mt-2 font-serif text-3xl font-bold leading-tight text-neutral-950 sm:text-4xl"
+					class="mt-3 text-[1.7rem] font-black leading-[1.12] tracking-tight text-balance text-neutral-950 sm:text-4xl sm:leading-[1.1]"
 				>
 					{title}
 				</h2>
@@ -62,16 +68,33 @@ const contentOrder = imagePosition === "left" ? "lg:order-2" : "lg:order-1";
 					<p class="mt-4 leading-relaxed text-neutral-600">{paragraph}</p>
 				))}
 				{features && features.length > 0 && (
-					<ul class="mt-4 list-disc space-y-2 ps-5 marker:text-amber-700">
+					<ul class="mt-6 space-y-3">
 						{features.map((feature) => (
-							<li class="leading-relaxed text-neutral-600">{feature}</li>
+							<li class="flex items-start gap-3 leading-relaxed text-neutral-700">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="20"
+									height="20"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									aria-hidden="true"
+									class="mt-0.5 shrink-0 text-teal-600"
+								>
+									<polyline points="20 6 9 17 4 12"></polyline>
+								</svg>
+								<span>{feature}</span>
+							</li>
 						))}
 					</ul>
 				)}
 				{ctaText && href && (
 					<a
 						href={href}
-						class="mt-6 inline-block rounded-full border border-neutral-300 bg-white px-7 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:border-neutral-950"
+						class="mt-8 inline-block rounded-full border border-teal-800/20 bg-white px-7 py-3 text-sm font-semibold text-teal-900 shadow-sm transition-all hover:-translate-y-0.5 hover:border-teal-700 hover:shadow-md"
 					>
 						{ctaText}
 					</a>

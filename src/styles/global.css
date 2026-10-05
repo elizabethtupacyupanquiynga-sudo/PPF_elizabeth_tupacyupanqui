@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+@theme {
+	--font-sans:
+		system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+		sans-serif;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	text-rendering: optimizeLegibility;
+	overflow-x: clip;
+}
+
+::selection {
+	background-color: var(--color-lime-200);
+	color: var(--color-teal-950);
+}
+
+:focus-visible {
+	outline: 2px solid var(--color-teal-600);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
