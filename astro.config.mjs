@@ -18,4 +18,6 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
+  site: 'https://elizabethtupacyupanquiynga-sudo.github.io',
+  base: '/PPF_elizabeth_tupacyupanqui',
 });
